@@ -1,15 +1,9 @@
 from fastapi import APIRouter
-from typing import List
-from app.schemas.room_schema import RoomSchema
-from app.services.ai_estimator import estimate_order
+from app.schemas.order_schema import ObjectEstimateInput
+from app.services.ai_estimator import estimate_rooms
 
 router = APIRouter()
 
-@router.get("/ping")
-def ping():
-    return {"status": "ok"}
-
 @router.post("/orders/estimate")
-def estimate(rooms: List[RoomSchema]):
-    result = estimate_order([room.dict() for room in rooms])
-    return result
+def estimate_order(data: ObjectEstimateInput):
+    return estimate_rooms(data)
