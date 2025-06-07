@@ -1,22 +1,13 @@
 from pydantic import BaseModel
-from datetime import datetime
-from typing import Optional
+from typing import List, Literal
 
-class OrderBase(BaseModel):
-    client_name: str
-    object_address: str
+
+class RoomSchema(BaseModel):
+    room_type: Literal["офис", "туалет", "кухня", "склад"]
     area: float
-    complexity: str
-    scheduled_time: datetime
+    complexity: Literal["низкая", "средняя", "высокая", "экстремальная"]
 
-class OrderCreate(OrderBase):
-    pass
-
-class OrderResponse(OrderBase):
-    id: int
-    status: str
-    price_estimate: Optional[float]
-    created_at: datetime
-
-    class Config:
-        orm_mode = True
+class ObjectEstimateInput(BaseModel):
+    object_name: str
+    object_type: Literal["офис", "склад", "таунхаус"]
+    rooms: List[RoomSchema]
